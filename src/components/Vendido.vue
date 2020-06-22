@@ -1,21 +1,14 @@
 <template>
   <v-content>
     <v-container>
-      <h1 class="d-flex justify-center subheading grey--text">Vendido</h1>
-      <v-layout class="d-flex flex-wrap justify-center">
-        <v-flex xs12 sm8 md4>
-          <v-btn text color="black" @click="sortBy('local')">
-            <v-icon left medium color="blue">mdi-folder</v-icon>
-            <span class="grey--text">Ordernar terreno</span>
-          </v-btn>
-        </v-flex>
-        <v-flex xs12 sm8 md4>
-          <v-btn text color="black" class="mb-4" @click="atualizar()">
-            <v-icon left medium color="blue">mdi-refresh</v-icon>
-            <span class="grey--text">Atualizar</span>
-          </v-btn>
-        </v-flex>
-      </v-layout>
+      <h1 class="d-flex justify-center subheading grey--text">Terrenos Vendidos</h1>
+
+      <v-flex xs12 sm12 md12 class="d-flex justify-center">
+        <v-btn text color="black" @click="sortBy('local')">
+          <v-icon left medium color="blue">mdi-folder</v-icon>
+          <span class="grey--text">Ordernar terreno</span>
+        </v-btn>
+      </v-flex>
 
       <v-card flat class="mb-10 zoom" v-for="project in projects" :key="project.id">
         <v-divider></v-divider>
@@ -40,7 +33,9 @@
           </v-flex>
           <v-flex xs12 sm4 md1 lg2 xl2>
             <div class="caption grey--text d-flex justify-center" link>Data</div>
-            <div class="body-1 black--text d-flex justify-center">{{ project.data | moment("DD/MM/YYYY") }}</div>
+            <div
+              class="body-1 black--text d-flex justify-center"
+            >{{ project.data | moment("DD/MM/YYYY") }}</div>
           </v-flex>
           <v-flex xs12 sm4 md1 lg1 xl1>
             <div class="caption grey--text d-flex justify-center" link>Custo</div>
@@ -55,8 +50,8 @@
             <div class="body-1 black--text d-flex justify-center">{{ project.local }}</div>
           </v-flex>
           <v-flex xs6 sm4 md6 lg1 xl1 class="d-flex">
-            <botaoPagamento :fields="project" class="mx-1" />
-            <btnDeletarTutoria :fields="project" class="mx-1" />
+            <botaoPagamento :fields="project" @alterarUsuario="alterarUsuario" class="mx-1" />
+            <btnDeletarTutoria :fields="project" @deletarcampo="deletarCampos" class="mx-1" />
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
@@ -88,6 +83,24 @@ export default {
     this.atualizar();
   },
   methods: {
+    deletarCampos(fields) {
+      axios
+        .delete(`${process.env.VUE_APP_API_URL}/delete/${fields}`)
+        .then(response => {
+          response;
+          this.atualizar();
+        })
+        .catch(error => console.error(error));
+    },
+    alterarUsuario(fields) {
+      axios
+        .put(`${process.env.VUE_APP_API_URL}/atualizar/${fields.id}`, fields)
+        .then(response => {
+          response;
+          this.atualizar();
+        })
+        .catch(error => console.error(error));
+    },
     atualizar() {
       axios
         .get(`${process.env.VUE_APP_API_URL}/filter/vendido`)

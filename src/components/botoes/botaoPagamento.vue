@@ -53,7 +53,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -69,10 +68,10 @@ export default {
 
   methods: {
     atualizarDashoboard(fields) {
-      console.log(fields.cliente);
       var response;
       if (this.disabled === true) {
         response = {
+          id : fields._id,
           valor: fields.valor,
           custo: fields.custo,
           local: fields.local,
@@ -82,11 +81,14 @@ export default {
             telefone: this.campos.telefone,
             datapagamento: fields.cliente.datapagamento,
             parcela: fields.cliente.parcela,
-            pagas: fields.cliente.pagas
+            pagas: fields.cliente.pagas,
+            total: fields.cliente.total
           }
         };
       } else if(this.disabled === false && this.campos.custo === '' || this.campos.custo === undefined){
         response = {
+          troca: fields.troca + 1,
+          id : fields._id,
           valor: fields.valor,
           custo: fields.custo,
           local: fields.local,
@@ -96,12 +98,14 @@ export default {
             telefone: fields.cliente.telefone,
             datapagamento: fields.cliente.datapagamento,
             parcela: this.campos.parcela,
-            pagas: fields.cliente.pagas
+            pagas: fields.cliente.pagas,
+            total: fields.cliente.total
           }
         };
       }else if(this.disabled === false){
         const custo = parseInt(this.campos.custo) + parseInt(fields.custo)
         response = {
+          id : fields._id,
           valor: fields.valor,
           custo:  custo.toString(),
           local: fields.local,
@@ -111,15 +115,13 @@ export default {
             telefone: fields.cliente.telefone,
             datapagamento: fields.cliente.datapagamento,
             parcela: fields.cliente.parcela,
-            pagas: fields.cliente.pagas
+            pagas: fields.cliente.pagas,
+            total: fields.cliente.total
           }
         };
       }
 
-      axios
-        .put(`${process.env.VUE_APP_API_URL}/atualizar/${fields._id}`, response)
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
+      this.$emit('alterarUsuario', response)
     }
   }
 };

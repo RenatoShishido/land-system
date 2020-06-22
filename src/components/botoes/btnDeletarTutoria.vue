@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -31,11 +30,8 @@ export default {
   },
   methods: {
     removerDashboard(fields) { 
-      console.log(fields._id)
-      axios
-        .delete(`${process.env.VUE_APP_API_URL}/delete/${fields._id}`)
-        .then(response => console.log(response))
-        .catch(error => console.error(error))
+      this.$emit('deletarcampo', fields._id)
+      
     }
   }
 };

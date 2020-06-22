@@ -47,6 +47,15 @@ export default {
   },
 
   methods: {
+    atualizar() {
+      axios
+        .get(`${process.env.VUE_APP_API_URL}/filter/venda`)
+        .then(response => {
+          console.log(response.data.response);
+          this.projects = response.data.response;
+        })
+        .catch(error => console.error(error));
+    },
     clearMemory() {
       this.fields = {};
     },
@@ -66,6 +75,7 @@ export default {
 
         this.clearMemory();
         this.dialog = false;
+        this.atualizar()
       }
     }
   }

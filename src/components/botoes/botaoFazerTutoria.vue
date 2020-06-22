@@ -18,6 +18,7 @@
             <v-text-field
               v-model="campos.telefone"
               :value="campos.telefone"
+              v-mask="mask"
               label="Telefone"
               prepend-icon="mdi-cellphone-android"
             ></v-text-field>
@@ -43,13 +44,14 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   data() {
     return {
       dialog: false,
       date: {},
-      campos: {}
+      campos: {},
+      mask: "(##) ####-####",
     };
   },
   props: {
@@ -58,9 +60,8 @@ export default {
 
   methods: {
     cadastrarVendido(fields) {
-      // console.log(fields)
-      // console.log(this.campos)
       const response = {
+        id: fields._id,
         valor: fields.valor,
         custo: fields.custo,
         local: fields.local,
@@ -70,16 +71,11 @@ export default {
           telefone: this.campos.telefone,
           datapagamento: this.campos.datapagamento,
           parcela: this.campos.parcela,
-          pagas: 0
+          pagas: 0,
         }
       };
 
-      console.log(response);
-
-      axios
-        .put(`${process.env.VUE_APP_API_URL}/atualizar/${fields._id}`, response)
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
+      this.$emit('preenchido', response)
     }
   }
 };

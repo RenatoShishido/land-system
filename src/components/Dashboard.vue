@@ -42,9 +42,9 @@
           <!-- BOTOES DO DASHBOARD -->
 
           <v-flex xs6 sm4 md6 lg2 xl1 class="d-flex">
-            <botaoFazerTutoria :fields="project" class="mx-1" />
-            <btnAlterarTutoria :fields="project" class="mx-1" />
-            <btnDeletarTutoria :fields="project" class="mx-1" />
+            <botaoFazerTutoria :fields="project" @preenchido="atualizarValores" class="mx-1" />
+            <btnAlterarTutoria :fields="project" @atualizarCampos="atualizarCampos" class="mx-1" />
+            <btnDeletarTutoria :fields="project" @deletarcampo="deletarCampos" class="mx-1" />
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      projects: {},
+      projects: [],
       fields: {},
       user: {},
       isActive: false,
@@ -78,11 +78,42 @@ export default {
     this.atualizar();
   },
   methods: {
+    deletarCampos(fields){
+       axios
+        .delete(`${process.env.VUE_APP_API_URL}/delete/${fields}`)
+         .then(response => {
+          response
+          this.atualizar()
+        })
+        .catch(error => console.error(error))
+    }, 
+    atualizarCampos(fields){
+      axios
+        .put(`${process.env.VUE_APP_API_URL}/atualizar/${fields.id}`, fields)
+        .then(response => {
+          response
+          this.atualizar()
+        })
+        .catch(error => console.error(error));
+
+      this.atualizar()
+    },
+    atualizarValores(fields){
+       axios
+        .put(`${process.env.VUE_APP_API_URL}/atualizar/${fields.id}`, fields)
+        .then(response => {
+          response
+          this.atualizar()
+        })
+        .catch(error => console.error(error));
+
+      this.atualizar()
+
+    },
     atualizar() {
       axios
         .get(`${process.env.VUE_APP_API_URL}/filter/venda`)
         .then(response => {
-          console.log(response.data.response);
           this.projects = response.data.response;
         })
         .catch(error => console.error(error));

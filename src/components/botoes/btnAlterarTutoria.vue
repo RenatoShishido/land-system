@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   data() {
     return {
@@ -52,11 +52,14 @@ export default {
 
   methods: {
     atualizarDashoboard(fields) {
-      console.log(fields._id);
-      axios
-        .put(`${process.env.VUE_APP_API_URL}/atualizar/${fields._id}`, this.campos)
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
+       const response = {
+        id: fields._id,
+        valor: this.campos.valor,
+        custo: this.campos.custo,
+        local: this.campos.local,
+        status: "Venda",
+      };
+      this.$emit('atualizarCampos', response)
     }
   }
 };
