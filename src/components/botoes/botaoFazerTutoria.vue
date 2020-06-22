@@ -18,19 +18,21 @@
             <v-text-field
               v-model="campos.telefone"
               :value="campos.telefone"
-              v-mask="mask"
+              v-mask="mask_telefone"
               label="Telefone"
               prepend-icon="mdi-cellphone-android"
             ></v-text-field>
             <v-text-field
               v-model="campos.datapagamento"
               :value="campos.datapagamento"
+              v-mask="mask_data"
               label="Data de pagamento"
               prepend-icon="mdi-fireplace-off"
             ></v-text-field>
             <v-text-field
               v-model="campos.parcela"
               :value="campos.parcela"
+              v-mask="mask_valor"
               label="Parcela"
               prepend-icon="mdi-cash-usd"
             ></v-text-field>
@@ -44,14 +46,15 @@
   </div>
 </template>
 <script>
-// import axios from "axios";
 export default {
   data() {
     return {
       dialog: false,
       date: {},
       campos: {},
-      mask: "(##) ####-####",
+      mask_telefone: "(##) ####-#####",
+      mask_data: "##/##/####",
+      mask_valor: "",
     };
   },
   props: {
