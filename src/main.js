@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import { VueMaskDirective } from 'v-mask'
+import money from 'v-money'
+
+// register directive v-money and component <money>
+Vue.use(money, {precision: 4})
+
 
 
 Vue.config.productionTip = false

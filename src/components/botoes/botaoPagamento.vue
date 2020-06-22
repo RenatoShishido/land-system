@@ -25,6 +25,7 @@
             <v-text-field
               v-model="campos.telefone"
               :value="campos.telefone"
+              v-mask="mask_telefone"
               label="Telefone"
               prepend-icon="mdi-cash-usd"
               :disabled="!disabled"
@@ -33,6 +34,7 @@
               v-model="campos.parcela"
               :value="campos.parcela"
               label="Parcela"
+              v-money="money"
               prepend-icon="mdi-cash-usd"
               :disabled="disabled"
             ></v-text-field>
@@ -53,15 +55,26 @@
   </div>
 </template>
 <script>
+import {VMoney} from 'v-money'
 export default {
   data() {
     return {
       dialog: false,
       disabled: true,
       date: {},
-      campos: {}
+      campos: {},
+      mask_telefone: "(##) ####-#####",
+      money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: '',
+          suffix: '',
+          precision: 2,
+          masked: false
+        },
     };
   },
+  directives: {money: VMoney},
   props: {
     fields: {}
   },
@@ -85,7 +98,7 @@ export default {
             total: fields.cliente.total
           }
         };
-      } else if(this.disabled === false && this.campos.custo === '' || this.campos.custo === undefined){
+      } else if(this.disabled === false && this.campos.custo === " " || this.campos.custo === undefined){
         response = {
           troca: fields.troca + 1,
           id : fields._id,

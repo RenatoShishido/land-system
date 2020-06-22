@@ -1,19 +1,17 @@
 <template>
   <div>
-    <v-app-bar app color="purple darken-4" dark height="80">
+    <v-app-bar app color="green darken-4" dark height="80">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="white" />
       <v-toolbar-title class="headline white--text hidden-md-and-down">Terrenos</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer">
-      <v-list flat class="d-flex flex-column my-5">
-        <v-list-item class="d-flex justify-center">
-          <Popup
-            @projectAdded="snackbar=true, color='teal lighten-2', texto='Tutoria cadastrada com Sucesso!'"
-            @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'"
-            @refreshProject="snackbar=true, color='red', texto='Voce precisar selecionar o tipo da tutoria!'"
-          />
+      <v-list>
+        <v-list-item>
+          <img src="../assets/terreno.jpg" alt="logo">
         </v-list-item>
+      </v-list>
+      <v-list flat class="d-flex flex-column my-5">
         <v-list-item class="my-4" v-for="item in items" :key="item.id" :to="item.route" link>
           <v-list-item-action>
             <v-icon class="black--text" :class="item.color">{{ item.icon }}</v-icon>
@@ -28,12 +26,8 @@
 </template>
 
 <script>
-import Popup from "./Popup";
 export default {
   name: "NavDrag",
-  components: {
-    Popup
-  },
   data: () => ({
     drawer: null,
     snackbar: false,
@@ -57,6 +51,11 @@ export default {
         icon: "mdi-page-next",
         text: "Tabela das parcelas",
         route: "/tabela"
+      },
+      {
+        icon: "mdi-file-pdf",
+        text: "Extrato das parcelas",
+        route: "/"
       },
       {
         icon: "mdi-graph-outline",

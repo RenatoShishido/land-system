@@ -2,14 +2,6 @@
   <v-content>
     <v-container>
       <h1 class="d-flex justify-center subheading grey--text">Terrenos Vendidos</h1>
-
-      <v-flex xs12 sm12 md12 class="d-flex justify-center">
-        <v-btn text color="black" @click="sortBy('local')">
-          <v-icon left medium color="blue">mdi-folder</v-icon>
-          <span class="grey--text">Ordernar terreno</span>
-        </v-btn>
-      </v-flex>
-
       <v-card flat class="mb-10 zoom" v-for="project in projects" :key="project.id">
         <v-divider></v-divider>
         <v-layout row wrap :class="`d-flex flex-wrap pa-3 project ${project.status} `">
@@ -17,7 +9,7 @@
             <div class="caption grey--text d-flex justify-center">Nome</div>
             <div class="body-1 black--text">{{ project.cliente.nome }}</div>
           </v-flex>
-          <v-flex xs12 sm4 md1 lg1 xl1>
+          <v-flex xs12 sm4 md1 lg2 xl2>
             <div class="caption grey--text d-flex justify-center">Telefone</div>
             <div class="body-1 black--text">{{ project.cliente.telefone }}</div>
           </v-flex>
@@ -31,17 +23,11 @@
               class="body-1 black--text text-justify d-flex justify-center"
             >{{ project.cliente.datapagamento }}</div>
           </v-flex>
-          <v-flex xs12 sm4 md1 lg2 xl2>
-            <div class="caption grey--text d-flex justify-center" link>Data</div>
-            <div
-              class="body-1 black--text d-flex justify-center"
-            >{{ project.data | moment("DD/MM/YYYY") }}</div>
-          </v-flex>
           <v-flex xs12 sm4 md1 lg1 xl1>
             <div class="caption grey--text d-flex justify-center" link>Custo</div>
             <div class="body-1 black--text d-flex justify-center">R$ {{ project.custo }}</div>
           </v-flex>
-          <v-flex xs12 sm4 md1 lg1 xl1>
+          <v-flex xs12 sm4 md1 lg2 xl2>
             <div class="caption grey--text d-flex justify-center">Valor Terreno</div>
             <div class="body-1 black--text d-flex justify-center">R$ {{ project.valor }}</div>
           </v-flex>

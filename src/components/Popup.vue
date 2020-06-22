@@ -7,19 +7,30 @@
     </template>
     <v-card>
       <v-card-title>
-        <h2>{{msg}}</h2>
+        <v-flex xs12 sm12 md12 lg12 xl12>
+          <h2 class="d-flex justify-center my-4">Cadastro de Terreno</h2>
+        </v-flex>
       </v-card-title>
       <v-card-text>
         <v-form max-width="800px" class="px-3" ref="form">
-          <v-text-field v-model="fields.valor" label="Valor" prepend-icon="mdi-cash-usd"></v-text-field>
-          <v-text-field v-model="fields.custo" label="Custos" prepend-icon="mdi-cash-usd"></v-text-field>
+          <v-text-field 
+          v-model="fields.valor" 
+          label="Valor" 
+          v-money="money"
+          prepend-icon="mdi-cash-usd"
+          ></v-text-field>
+          <v-text-field
+          v-model="fields.custo"
+           label="Custos" 
+           prepend-icon="mdi-cash-usd"
+           ></v-text-field>
           <v-text-field
             v-model="fields.local"
             label="Endereco do terreno"
             prepend-icon="mdi-fireplace-off"
             @keypress.enter="submit()"
           ></v-text-field>
-          <v-flex xs12 sm12 md12 lg12>
+          <v-flex xs12 sm12 md12 lg12 class="my-4">
             <v-btn class="success" text @click="submit()" :loading="loading">Salvar</v-btn>
           </v-flex>
         </v-form>
@@ -29,7 +40,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {VMoney} from 'v-money'
 export default {
   props: {
     msg: String,
@@ -42,20 +53,19 @@ export default {
       fields: {},
       menu: false,
       loading: false,
-      dialog: false
+      dialog: false,
+       money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: '',
+          suffix: '',
+          precision: 2,
+          masked: false
+      }
     };
   },
-
+  directives: {money: VMoney},
   methods: {
-    atualizar() {
-      axios
-        .get(`${process.env.VUE_APP_API_URL}/filter/venda`)
-        .then(response => {
-          console.log(response.data.response);
-          this.projects = response.data.response;
-        })
-        .catch(error => console.error(error));
-    },
     clearMemory() {
       this.fields = {};
     },
@@ -68,14 +78,9 @@ export default {
         this.dialog = false;
         confirm("Terreno invalido");
       } else {
-        axios
-          .post(`${process.env.VUE_APP_API_URL}`, this.fields)
-          .then(response => console.log(response))
-          .catch(error => console.error(error));
-
+        this.$emit('popup', this.fields)
         this.clearMemory();
         this.dialog = false;
-        this.atualizar()
       }
     }
   }

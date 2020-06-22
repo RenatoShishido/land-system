@@ -1,19 +1,11 @@
 <template>
   <v-content>
     <v-container>
-      <h1 class="d-flex justify-center subheading grey--text">Sistema</h1>
       <v-layout class="d-flex flex-wrap justify-center">
-        <v-flex xs12 sm8 md4>
-          <v-btn text color="black" @click="sortBy('local')">
-            <v-icon left medium color="blue">mdi-folder</v-icon>
-            <span class="grey--text">Ordernar terreno</span>
-          </v-btn>
-        </v-flex>
-        <v-flex xs12 sm8 md4>
-          <v-btn text color="black" class="mb-4" @click="atualizar()">
-            <v-icon left medium color="blue">mdi-refresh</v-icon>
-            <span class="grey--text">Atualizar</span>
-          </v-btn>
+        <v-flex xs12 sm12 md12 lg12 xl12 class="d-flex justify-center my-6">
+           <Popup
+            @popup="cadastrarTerreno"
+          />
         </v-flex>
       </v-layout>
 
@@ -58,12 +50,14 @@ import axios from "axios";
 import botaoFazerTutoria from "./botoes/botaoFazerTutoria";
 import btnAlterarTutoria from "./botoes/btnAlterarTutoria";
 import btnDeletarTutoria from "./botoes/btnDeletarTutoria";
+import Popup from './Popup'
 
 export default {
   components: {
     btnAlterarTutoria,
     botaoFazerTutoria,
-    btnDeletarTutoria
+    btnDeletarTutoria,
+    Popup
   },
   data() {
     return {
@@ -78,6 +72,15 @@ export default {
     this.atualizar();
   },
   methods: {
+    cadastrarTerreno(fields){
+       axios
+          .post(`${process.env.VUE_APP_API_URL}`, fields)
+           .then(response => {
+          response
+          this.atualizar()
+        })
+          .catch(error => console.error(error));
+    },
     deletarCampos(fields){
        axios
         .delete(`${process.env.VUE_APP_API_URL}/delete/${fields}`)

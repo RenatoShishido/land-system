@@ -32,10 +32,11 @@
             <v-text-field
               v-model="campos.parcela"
               :value="campos.parcela"
-              v-mask="mask_valor"
+              v-money="money"
               label="Parcela"
               prepend-icon="mdi-cash-usd"
             ></v-text-field>
+            <!-- <input v-model.lazy="campos.parcela"  />  -->
             <v-card-actions class="d-flex justify-center">
               <v-btn class="yellow" @click="dialog = false, cadastrarVendido(fields)">Vender</v-btn>
             </v-card-actions>
@@ -46,6 +47,7 @@
   </div>
 </template>
 <script>
+import {VMoney} from 'v-money'
 export default {
   data() {
     return {
@@ -54,9 +56,17 @@ export default {
       campos: {},
       mask_telefone: "(##) ####-#####",
       mask_data: "##/##/####",
-      mask_valor: "",
+       money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: '',
+          suffix: '',
+          precision: 2,
+          masked: false
+        }
     };
   },
+  directives: {money: VMoney},
   props: {
     fields: {}
   },
