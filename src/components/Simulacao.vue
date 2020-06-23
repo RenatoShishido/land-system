@@ -58,6 +58,9 @@
       </v-flex>
     </div>
     </v-card>
+    <div>
+      <chartjs-doughnut :labels="labels" :datasets="datasets" :option="option"></chartjs-doughnut>
+    </div>
   </v-container>
 </v-content>
   
@@ -75,10 +78,28 @@ export default {
       impostos: 0,
       totalDescontos: 0,
       totalLiquido: 0,
+      labels: ["VALOR LIQUIDO - DESCONTOS", "VALOR BRUTO", "VALOR DESPESA + CONTADOR + IMPOSTOS", "atualizar"],
+      datasets: [
+        {
+          data: [1, 1, 1],
+          backgroundColor: ["green", "yellow", "red"]
+        }
+      ],
+      option: {
+        title: {
+          display: true,
+          position: "bottom",
+          text: "Simulacao"
+        }
+      }
     };
   },
   methods: {
     simular(){
+      if(this.fields.parcela === undefined || this.fields.valorParcela === undefined || this.fields.igcm === undefined || this.fields.custoTerreno === undefined || this.fields.despesaTerreno === undefined ||
+      this.fields.impostos === undefined){
+        confirm("VALORES INVALIDOS")
+      }else {
       var igcm = parseInt(this.fields.igcm) + 100
       var valor = parseInt(this.fields.valorParcela)
       var total = 0
@@ -113,6 +134,18 @@ export default {
     totalLiquido = (soma * 90 / 100) - totalDescontos
 
     this.totalLiquido = totalLiquido.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
+    // GRAFICO
+
+    this.datasets[0].data.pop()
+    this.datasets[0].data.pop()
+    this.datasets[0].data.pop()
+    this.datasets[0].data.push(totalLiquido)
+    this.datasets[0].data.push(soma)
+    this.datasets[0].data.push(totalDescontos)
+    
+
+        }
 
     }
 

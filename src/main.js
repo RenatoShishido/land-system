@@ -5,7 +5,11 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import { VueMaskDirective } from 'v-mask'
 import money from 'v-money'
+import "chart.js"
+import "hchs-vue-charts"
 
+
+Vue.use(window.VueCharts)
 // register directive v-money and component <money>
 Vue.use(money, {precision: 4})
 
