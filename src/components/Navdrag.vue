@@ -60,7 +60,7 @@ export default {
       {
         icon: "mdi-graph-outline",
         text: "Simulacao",
-        route: "/"
+        route: "/simulacao"
       }
     ]
   }),

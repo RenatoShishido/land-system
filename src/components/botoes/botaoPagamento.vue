@@ -44,6 +44,7 @@
               label="Custo"
               prepend-icon="mdi-cash-usd"
               :disabled="disabled"
+              @keypress.enter="atualizarDashoboard(fields)"
             ></v-text-field>
             <v-card-actions class="d-flex justify-center">
               <v-btn class="success" @click="dialog = false, atualizarDashoboard(fields)">Alterar</v-btn>

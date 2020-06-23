@@ -26,6 +26,7 @@
               :value="campos.local"
               label="Local"
               prepend-icon="mdi-fireplace-off"
+              @keypress.enter="atualizarDashoboard(fields)"
             ></v-textarea>
             <v-card-actions class="d-flex justify-center">
               <v-btn class="success" @click="dialog = false, atualizarDashoboard(fields)">Alterar</v-btn>

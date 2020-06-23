@@ -39,7 +39,6 @@ export default {
       var total = 0
       var aux = 0
       if(this.fields.troca > 0){
-        console.log("OI")
         for (let index = 0; index < this.fields.troca; index++) {
           aux = parseInt(this.fields.cliente.parcela) + aux
         }

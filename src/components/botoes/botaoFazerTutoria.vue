@@ -35,8 +35,8 @@
               v-money="money"
               label="Parcela"
               prepend-icon="mdi-cash-usd"
+              @keypress.enter="cadastrarVendido(fields)"
             ></v-text-field>
-            <!-- <input v-model.lazy="campos.parcela"  />  -->
             <v-card-actions class="d-flex justify-center">
               <v-btn class="yellow" @click="dialog = false, cadastrarVendido(fields)">Vender</v-btn>
             </v-card-actions>

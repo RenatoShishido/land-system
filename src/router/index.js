@@ -19,6 +19,11 @@ Vue.use(VueRouter)
     name: 'Tabela',
     component: () => import(/* webpackChunkName: "about" */ '../views/Tabela.vue')
   },
+  {
+    path: '/simulacao',
+    name: 'Simulador',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Simulador.vue')
+  },
 ]
 
 const router = new VueRouter({
