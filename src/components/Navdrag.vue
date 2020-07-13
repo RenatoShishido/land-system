@@ -6,11 +6,6 @@
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer">
-      <v-list>
-        <v-list-item>
-          <img src="../assets/terreno.jpg" alt="logo">
-        </v-list-item>
-      </v-list>
       <v-list flat class="d-flex flex-column my-5">
         <v-list-item class="my-4" v-for="item in items" :key="item.id" :to="item.route" link>
           <v-list-item-action>
@@ -52,11 +47,11 @@ export default {
         text: "Tabela das parcelas",
         route: "/tabela"
       },
-      {
-        icon: "mdi-file-pdf",
-        text: "Extrato das parcelas",
-        route: "/"
-      },
+      // {
+      //   icon: "mdi-file-pdf",
+      //   text: "Extrato das parcelas",
+      //   route: "/"
+      // },
       {
         icon: "mdi-graph-outline",
         text: "Simulacao",

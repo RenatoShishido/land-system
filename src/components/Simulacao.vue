@@ -35,32 +35,23 @@
     class="mr-4"
     label="Despesa Terreno"
   ></v-text-field>
-  <v-text-field
-    v-model="fields.impostos"
-    filled
-    label="Impostos do Terreno"
-  ></v-text-field>
 </v-flex>
     <v-btn class="yellow" @click="simular()">SIMULAR</v-btn>
     </v-card>
     <v-card class="my-10 py-10 px-10">
       <div class="d-flex">
      <v-flex xs12 sm12 md12 lg6 xl6 >
-      <h1>VALOR BRUTO:  <span class="blue--text">  {{ total }}</span> </h1>
-      <h1>VALOR LIQUIDO:  <span class="green--text">  {{ liquido }}</span> </h1>
-      <h1>VALOR CONTADOR:  <span class="red--text">  {{ contador }}</span> </h1>
-      <h1>VALOR DESPESA:  <span class="red--text">  {{ despesa }}</span> </h1>
-      <h1>VALOR IMPOSTOS:  <span class="red--text">  {{ impostos }}</span> </h1>
+      <h1>Valor Bruto:  <span class="blue--text">  {{ total }}</span> </h1>
+      <h1>Valor Liquido:  <span class="green--text">  {{ liquido }}</span> </h1>
+      <h1>Valor Corretor:  <span class="red--text">  {{ contador }}</span> </h1>
+      <h1>Valor Terreno:  <span class="red--text">  {{ despesa }}</span> </h1>
       </v-flex>
      <v-flex xs12 sm12 md12 lg6 xl6 >
-      <h1>VALOR LIQUIDO - DESCONTOS:  <span class="green--text">  {{ totalLiquido }}</span> </h1>
-      <h1>VALOR DESPESA + CONTADOR + IMPOSTOS:  <span class="red--text">  {{ totalDescontos }}</span> </h1>
+      <h1>Valor Liquido - Despesas:  <span class="green--text">  {{ totalLiquido }}</span> </h1>
+      <h1>Valor Despesas:  <span class="red--text">  {{ totalDescontos }}</span> </h1>
       </v-flex>
     </div>
     </v-card>
-    <div>
-      <chartjs-doughnut :labels="labels" :datasets="datasets" :option="option"></chartjs-doughnut>
-    </div>
   </v-container>
 </v-content>
   
@@ -78,33 +69,18 @@ export default {
       impostos: 0,
       totalDescontos: 0,
       totalLiquido: 0,
-      labels: ["VALOR LIQUIDO - DESCONTOS", "VALOR BRUTO", "VALOR DESPESA + CONTADOR + IMPOSTOS", "atualizar"],
-      datasets: [
-        {
-          data: [1, 1, 1],
-          backgroundColor: ["green", "yellow", "red"]
-        }
-      ],
-      option: {
-        title: {
-          display: true,
-          position: "bottom",
-          text: "Simulacao"
-        }
-      }
     };
   },
   methods: {
     simular(){
-      if(this.fields.parcela === undefined || this.fields.valorParcela === undefined || this.fields.igcm === undefined || this.fields.custoTerreno === undefined || this.fields.despesaTerreno === undefined ||
-      this.fields.impostos === undefined){
+      if(this.fields.parcela === undefined || this.fields.valorParcela === undefined || this.fields.igcm === undefined 
+      || this.fields.custoTerreno === undefined || this.fields.despesaTerreno === undefined){
         confirm("VALORES INVALIDOS")
       }else {
       var igcm = parseInt(this.fields.igcm) + 100
       var valor = parseInt(this.fields.valorParcela)
       var total = 0
       var parcela = this.fields.parcela / 12
-      var impostos = 0
       var totalDescontos = 0
       var totalLiquido = 0
       for (let i = 0; i < parcela - 1; i++) {
@@ -114,8 +90,6 @@ export default {
         }
         valor = ( valor * igcm) / 100
       }
-    impostos = parseFloat(this.fields.impostos) * parcela
-    this.impostos = impostos.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
     var soma
     soma = this.fields.valorParcela * 12 + total
@@ -127,11 +101,11 @@ export default {
 
     this.despesa = (parseFloat(this.fields.custoTerreno) + parseFloat(this.fields.despesaTerreno)).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-    totalDescontos  =  (soma * 10 / 100) + parseFloat(this.fields.custoTerreno) + parseFloat(this.fields.despesaTerreno) + impostos
+    totalDescontos  =  (soma * 10 / 100) + parseFloat(this.fields.custoTerreno) + parseFloat(this.fields.despesaTerreno)
 
     this.totalDescontos = totalDescontos.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-    totalLiquido = (soma * 90 / 100) - totalDescontos
+    totalLiquido = soma  - totalDescontos
 
     this.totalLiquido = totalLiquido.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
@@ -143,13 +117,8 @@ export default {
     this.datasets[0].data.push(totalLiquido)
     this.datasets[0].data.push(soma)
     this.datasets[0].data.push(totalDescontos)
-    
-
         }
-
     }
-
-
   }
 };
 </script>
